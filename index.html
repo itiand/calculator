@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div id="calculator" class="grid">
+      <div id="display">
+        <div><p id="upperDisplay">22+5</p></div>
+        <div ><h2 id="mainDisplay">12345</h2></div>
+      </div>
+      <div class="row row-1">
+        <button id="allClear">AC</button>
+        <button id="backSpace">&#9003;</button>
+        <button id="plusMinus">±</button>
+        <button id="divide" class="operator">/</button>
+      </div>
+      <div class="row row-2">
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="operator">x</button>
+      </div>
+      <div class="row row-3">
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="operator">-</button>
+      </div>
+      <div class="row row-4">
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="operator">+</button>
+      </div>
+      <div class="row row-5">
+        <button class="number">0</button>
+        <button id="decimal">.</button>
+        <button id="equals">=</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
