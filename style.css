@@ -32,7 +32,7 @@ button:hover {
 #calculator{
   border: 2px orange solid;
   border-radius: 3px;
-  /* max-width: 400px; */
+  max-width: 400px;
   padding: 2.1rem 1.2rem;
   grid-gap: 6px;
   grid-template-rows: 1.4fr 1fr 1fr 1fr 1fr 1fr;

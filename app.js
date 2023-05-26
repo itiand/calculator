@@ -22,6 +22,7 @@ const mainDisplay = document.getElementById('mainDisplay')
 const operators = document.querySelectorAll('.operator')
 const numberBtns = document.querySelectorAll('.number')
 const equalBtn = document.getElementById('equals')
+const allClearBtn = document.getElementById('allClear')
 
 let isNum1 = true;
 
@@ -115,6 +116,14 @@ equalBtn.addEventListener('click', () => {
   resetPressedBtns();
   pressedNum1 = String(result);
 });
+
+
+allClearBtn.addEventListener('click', () => {
+  //clear screen
+  clearMainDisplay()
+  //clear input
+  resetPressedBtns()
+})
 
 
 //erase when we all clear
