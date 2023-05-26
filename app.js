@@ -67,10 +67,19 @@ function operate(num1, num2, operator) {
       console.log('Invalid operator');
       return;
   }
-  return result;
+  return result.toString();
 }
 
+const MAX_DISPLAY_CHARS = 18;
+const MAX_DECIMAL_PLACES = 15;
 function updateMainDisplay(value) {
+  if(value.length > MAX_DISPLAY_CHARS) {
+    let roundedValue;
+    value = Number(value)
+    roundedValue = parseFloat(value).toFixed(MAX_DECIMAL_PLACES).toString()
+    roundedValue = roundedValue.substring(0, MAX_DISPLAY_CHARS); // Truncate the value
+    value = roundedValue;
+  }
   mainDisplay.innerText = value;
 }
 
