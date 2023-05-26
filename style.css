@@ -23,7 +23,7 @@ button {
 #calculator{
   border: 1px orange solid;
   max-width: 400px;
-  padding: 1.5rem;
+  padding: 2.1rem 1.2rem;
   grid-gap: 5px;
   grid-template-rows: 1.4fr 1fr 1fr 1fr 1fr 1fr;
 }
@@ -37,7 +37,17 @@ button {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly ;
+  justify-content: space-evenly;
+}
+
+.blink {
+  animation: blink-animation 0.05s infinite;
+}
+
+@keyframes blink-animation {
+  0% { opacity: 1; } /* Element is fully visible at the start */
+  50% { opacity: 0; } /* Element becomes fully transparent at the midpoint */
+  100% { opacity: 1; } /* Element becomes fully visible again at the end */
 }
 
 .row {

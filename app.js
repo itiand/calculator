@@ -23,28 +23,98 @@ const operators = document.querySelectorAll('.operator')
 const numberBtns = document.querySelectorAll('.number')
 const equalBtn = document.getElementById('equals')
 
+let isNum1 = true;
+
+function toggleNum() {
+  if(isNum1) isNum1 = false
+  else isNum1 = true;
+
+  return isNum1;
+}
+
+
 function updateInput(value) {
-  if(pressedOperator === '') { //if there's no pressed operator yet, means this is num1
+  if(isNum1) { //if there's no pressed operator yet, means this is num1
     pressedNum1 += value;
+    return pressedNum1;
   } else {
     pressedNum2 += value;
+    return pressedNum2;
   }
-
-  console.log(pressedNum1, pressedNum2)
 }
 
 function operate(num1, num2, operator) {
-  console.log(Number(num1), Number(num2), Number(operator));
+  num1 = Number(num1)
+  num2 = Number(num2)
+
+  switch (operator) {
+    case '+':
+      result = num1 + num2;
+      break;
+    case '-':
+      result = num1 - num2;
+      break;
+    case 'x':
+      result = num1 * num2;
+      break;
+    case '/':
+      result = num1 / num2;
+      break;
+    // Add more cases for additional operators if needed
+
+    default:
+      console.log('Invalid operator');
+      return;
+  }
+  return result;
 }
 
 function updateMainDisplay(value) {
-  const currentDisplay;
+  mainDisplay.innerText = value;
 }
+
+function clearMainDisplay() {
+  mainDisplay.innerText = '';
+}
+
+function resetPressedBtns() {
+  pressedNum1 = '';
+  pressedNum2 = '';
+  pressedOperator = '';
+}
+
+
 
 numberBtns.forEach(numberBtn => {
   numberBtn.addEventListener('click', () => {
-    updateInput(numberBtn.innerText);
+    let updadatedInput = updateInput(numberBtn.innerText);
+    updateMainDisplay(updadatedInput)
   })
 })
 
-equalBtn.addEventListener('click', () => {operate(pressedNum1, pressedNum2, pressedOperator)});
+operators.forEach(operator => {
+  operator.addEventListener('click', () => {
+    if(!isNum1) {
+      operate(pressedNum1, pressedNum2, pressedOperator);
+    }
+
+    pressedOperator = operator.innerText;
+    toggleNum();
+    //UI part
+    mainDisplay.classList.add('blink')
+    setTimeout(() => {
+      mainDisplay.classList.remove('blink'); // Remove the 'blink' class
+    }, 50);
+  })
+})
+
+equalBtn.addEventListener('click', () => {
+  let result = operate(pressedNum1, pressedNum2, pressedOperator);
+  toggleNum();
+  updateMainDisplay(result)
+  resetPressedBtns();
+  pressedNum1 = String(result);
+});
+
+
+//erase when we all clear
