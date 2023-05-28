@@ -108,6 +108,11 @@ function operate(num1, num2, operator) {
       console.log('Invalid operator');
       return;
   }
+  
+  if (isNaN(result) || (!isFinite(result))) {
+    result = 'ERROR';
+  }
+
   return result.toString();
 }
 
