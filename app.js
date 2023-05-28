@@ -1,19 +1,3 @@
-//document.getQuerySelector/getElementByID on all necessary buttons
-
-//* three variables for num1 num2 and operator
-
-//add event listener on the equal sign
-  //when they press -> operate(num1, operator, num2)
-    //return number || other error
-    //update the UI
-
-
-//***** */
-//get input/addEventListener
-//store them in a variable
-//pass in those variable that would calculate base on the three variables
-
-
 let pressedNum1 = '';
 let pressedNum2 = '';
 let pressedOperator = '';
@@ -24,6 +8,7 @@ const numberBtns = document.querySelectorAll('.number')
 const equalBtn = document.getElementById('equals')
 const allClearBtn = document.getElementById('allClear')
 const plusMinusBtn = document.getElementById('plusMinus');
+const backSpaceBtn = document.getElementById('backSpace')
 
 ///temp - a ui tool 
 let currentNum = document.getElementById('isNum1');
@@ -32,9 +17,10 @@ let pressedNum2UI = document.getElementById('pressedNum2');
 let pressedOperatorUI = document.getElementById('pressedOperator');
 ////
 
-
 let isNum1 = true;
 
+///FUNCTIONS/////
+/////////////////
 function toggleNum() {
   if(isNum1) {
     isNum1 = false;
@@ -59,7 +45,7 @@ function carryOverResultToNum1(operateResult) {
 
 function updateInput(value) {
   if(value === '-') { // IF THE UPDATE IS plusMinus
-    if(isNum1) {//figure out if we're dealing with pressedNum1 or pressedNum2?
+    if(isNum1) {
       if(pressedNum1.startsWith('-')) { // if it's negative
         //if negative, make it positive
         pressedNum1 = pressedNum1.slice(1)
@@ -90,6 +76,16 @@ function updateInput(value) {
   }
 }
 
+function backSpace() {
+  if(isNum1) {
+    pressedNum1 = pressedNum1.slice(0, -1)
+    return pressedNum1;
+  } else {
+    pressedNum2 = pressedNum2.slice(0, -1)
+    return pressedNum2;
+  }
+}
+
 function operate(num1, num2, operator) {
   num1 = Number(num1)
   num2 = Number(num2)
@@ -107,7 +103,6 @@ function operate(num1, num2, operator) {
     case '/':
       result = num1 / num2;
       break;
-    // Add more cases for additional operators if needed
 
     default:
       console.log('Invalid operator');
@@ -143,15 +138,14 @@ function resetPressedBtns() {
   pressedOperatorUI.innerText = '';
 }
 
-
-
+///EVENT LISTENERS///
+//////////////////////
 numberBtns.forEach(numberBtn => {
   numberBtn.addEventListener('click', () => {
     let updadatedInput = updateInput(numberBtn.innerText);
     updateMainDisplay(updadatedInput)
   })
 })
-
 
 plusMinusBtn.addEventListener('click', () => {
   const updadatedInput = updateInput('-')
@@ -201,7 +195,6 @@ equalBtn.addEventListener('click', () => {
   toggleNum();
 });
 
-
 allClearBtn.addEventListener('click', () => {
   //clear screen
   resetPressedBtns()
@@ -209,3 +202,12 @@ allClearBtn.addEventListener('click', () => {
   //clear input
 })
 
+backSpaceBtn.addEventListener('click', () => {
+  const updatedInput = backSpace();
+  updateMainDisplay(updatedInput);
+
+  //
+  pressedNum1UI.innerText = pressedNum1;
+  pressedNum2UI.innerText = pressedNum2;
+  pressedOperatorUI.innerText = pressedOperator;
+})
