@@ -32,9 +32,9 @@ button:hover {
 #calculator{
   border: 2px orange solid;
   border-radius: 3px;
-  width: 500px;
+  width: 420px;
   padding: 2.1rem 1.2rem;
-  grid-gap: 6px;
+  grid-gap: 7px;
   grid-template-rows: 1.4fr 1fr 1fr 1fr 1fr 1fr;
 }
 
@@ -51,7 +51,7 @@ button:hover {
   flex-direction: column;
   justify-content: center;
 
-  font-size: 2rem;
+  font-size: 1.7rem;
   overflow: hidden;
 }
 
@@ -67,7 +67,7 @@ button:hover {
 
 .row {
   display: grid;
-  grid-gap: 6px;
+  grid-gap: 7px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 

@@ -23,24 +23,70 @@ const operators = document.querySelectorAll('.operator')
 const numberBtns = document.querySelectorAll('.number')
 const equalBtn = document.getElementById('equals')
 const allClearBtn = document.getElementById('allClear')
+const plusMinusBtn = document.getElementById('plusMinus');
+
+///temp - a ui tool 
+let currentNum = document.getElementById('isNum1');
+let pressedNum1UI = document.getElementById('pressedNum1');
+let pressedNum2UI = document.getElementById('pressedNum2');
+let pressedOperatorUI = document.getElementById('pressedOperator');
+////
+
 
 let isNum1 = true;
 
 function toggleNum() {
-  if(isNum1) isNum1 = false
-  else isNum1 = true;
-
+  if(isNum1) {
+    isNum1 = false;
+    currentNum.innerText = `num2`;
+  } else {
+    isNum1 = true;
+    currentNum.innerText = `num1`;
+  }
   return isNum1;
 }
 
+function carryOverResultToNum1(operateResult) {
+  pressedNum1 = operateResult;
+  pressedNum2 = '';
+  isNum1 = false;
+
+  //devtools
+  pressedNum1UI.innerText = pressedNum1;
+  pressedNum2UI.innerText = pressedNum2;
+  pressedOperatorUI.innerText = pressedOperator;
+}
 
 function updateInput(value) {
-  if(isNum1) { //if there's no pressed operator yet, means this is num1
-    pressedNum1 += value;
-    return pressedNum1;
+  if(value === '-') { // IF THE UPDATE IS plusMinus
+    if(isNum1) {//figure out if we're dealing with pressedNum1 or pressedNum2?
+      if(pressedNum1.startsWith('-')) { // if it's negative
+        //if negative, make it positive
+        pressedNum1 = pressedNum1.slice(1)
+      } else {      //if positive, make it negative
+        pressedNum1 = `-${pressedNum1}`
+      }
+      pressedNum1UI.innerText = pressedNum1;
+      return pressedNum1
+    } else {
+      if(pressedNum2.startsWith('-')) {
+        pressedNum2 = pressedNum2.slice(1)
+      } else {
+        pressedNum2 = `-${pressedNum2}`
+      }
+      pressedNum2UI.innerText = pressedNum2;
+      return pressedNum2;
+    }
   } else {
-    pressedNum2 += value;
-    return pressedNum2;
+    if(isNum1) {
+      pressedNum1 += value;
+      pressedNum1UI.innerText = pressedNum1;
+      return pressedNum1;
+    } else {
+      pressedNum2 += value;
+      pressedNum2UI.innerText = pressedNum2;
+      return pressedNum2;
+    }
   }
 }
 
@@ -91,6 +137,10 @@ function resetPressedBtns() {
   pressedNum1 = '';
   pressedNum2 = '';
   pressedOperator = '';
+
+  pressedNum1UI.innerText = ''
+  pressedNum2UI.innerText = ''
+  pressedOperatorUI.innerText = '';
 }
 
 
@@ -102,14 +152,33 @@ numberBtns.forEach(numberBtn => {
   })
 })
 
+
+plusMinusBtn.addEventListener('click', () => {
+  const updadatedInput = updateInput('-')
+  updateMainDisplay(updadatedInput)
+});
+
 operators.forEach(operator => {
   operator.addEventListener('click', () => {
-    if(!isNum1) {
-      operate(pressedNum1, pressedNum2, pressedOperator);
+    //BEFORE WE UPDATE THE NEW PRESSED OPERATOR
+    //for chain operations... 1+1+1+1
+    //updates result and UI as operators are linked
+    if(pressedNum1 !== '' && pressedNum2 !== '' && pressedOperator !== '') {
+      const result = operate(pressedNum1, pressedNum2, pressedOperator);
+      updateMainDisplay(result);
+      carryOverResultToNum1(result);
+    } 
+
+    pressedOperatorUI.innerText = operator.innerText;//dev tool
+    pressedOperator = operator.innerText;
+
+    //prevents going back to isNum1=true when repetitive pressing on one of the operators
+    if((!isNum1 && pressedNum1 !== '') || (pressedNum1 === '' && isNum1)) { 
+      console.log('no changes')
+    } else {
+      toggleNum()
     }
 
-    pressedOperator = operator.innerText;
-    toggleNum();
     //UI part
     mainDisplay.classList.add('blink')
     setTimeout(() => {
@@ -119,20 +188,24 @@ operators.forEach(operator => {
 })
 
 equalBtn.addEventListener('click', () => {
+
+  //blink when equal is pressed UI
+  mainDisplay.classList.add('blink')
+  setTimeout(() => {
+    mainDisplay.classList.remove('blink'); // Remove the 'blink' class
+  }, 50);
+
   let result = operate(pressedNum1, pressedNum2, pressedOperator);
-  toggleNum();
   updateMainDisplay(result)
   resetPressedBtns();
-  pressedNum1 = String(result);
+  toggleNum();
 });
 
 
 allClearBtn.addEventListener('click', () => {
   //clear screen
+  resetPressedBtns()
   clearMainDisplay()
   //clear input
-  resetPressedBtns()
 })
 
-
-//erase when we all clear
